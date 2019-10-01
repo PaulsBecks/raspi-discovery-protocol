@@ -1,0 +1,12 @@
+[Unit]
+Description=Pi Signal
+After=multi-user.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python /home/pi/raspi-discovery-protocol/pi_signal.py
+StandardInput=tty-force
+
+[Install]
+WantedBy=multi-user.target
+

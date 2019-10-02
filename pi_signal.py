@@ -1,16 +1,20 @@
 #!/usr/bin/env python
-import socket, traceback
+import traceback
 import time
-s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-s.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
+from config import UDP_IP, UDP_SERVER_PORT, UDP_SIGNAL_PORT
+from pi_sock import create_output_socket, create_input_socket 
 
+inputSocket = create_input_socket(UDP_IP, UDP_SIGNAL_PORT)
+outputSocket = create_output_socket()
 
-while True:
-    try:
-        s.sendto("server here",('255.255.255.255', 2345))
-        time.sleep(5)
-    except (KeyboardInterrupt, SystemExit):
-        raise
-    except:
-        traceback.print_exc()
+try:
+    msg = "who is a good raspi?"
+    outputSocket.sendto(msg,(UDP_IP, UDP_SERVER_PORT))
+    print msg
+    while True:
+        data, addr = inputSocket.recvfrom(1024) # buffer size is 1024 bytes
+        print addr[0], ":", data
+except (KeyboardInterrupt, SystemExit):
+    raise
+except:
+    traceback.print_exc()

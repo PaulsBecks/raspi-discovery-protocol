@@ -4,7 +4,7 @@ After=multi-user.target
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/python /home/pi/raspi-discovery-protocol/pi_signal.py
+ExecStart=/usr/bin/python /home/pi/raspi-discovery-protocol/pi_server.py
 StandardInput=tty-force
 
 [Install]
